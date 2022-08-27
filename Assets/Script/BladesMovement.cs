@@ -3,31 +3,31 @@ using UnityEngine;
 public class BladesMovement : MonoBehaviour
 {
     public bool moveToRight;
-    public float speed = 1;
+    public float speed = 3;
 
-    void Update()
+    private void Start()
     {
-        if (transform.position.x <= -10) {
-            moveToRight = true;
-            speed = Random.Range(1, 5f);
-        }
-        else if (transform.position.x >= 10) moveToRight = false;
+        //speed = Random.Range(1f, 4f);
 
+        if (transform.position.x <= -10) moveToRight = true;
+        else if (transform.position.x >= 10) moveToRight= false;
 
-
+        Invoke("Die", 10); 
     }
 
     private void FixedUpdate()
     {
-       MovingPlatform();
+        if (moveToRight) transform.position += new Vector3(2 * speed, 0, 0) * Time.deltaTime;
+        else transform.position -= new Vector3(2 * speed, 0, 0) * Time.deltaTime;
     }
 
-    void MovingPlatform()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (moveToRight) transform.Translate(Vector2.right * speed * Time.fixedDeltaTime);
-        else transform.Translate(Vector2.left * speed * Time.fixedDeltaTime);
+        if (collision.gameObject.CompareTag("End")) Destroy(this.gameObject);
     }
 
-
-
+    void Die()
+    {
+        Destroy(this.gameObject);
+    }
 }
