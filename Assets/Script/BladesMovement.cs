@@ -23,7 +23,9 @@ public class BladesMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("End")) Destroy(this.gameObject);
+        if (collision.gameObject.CompareTag("Player")) {
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().TakeDMG(1);
+        }
     }
 
     void Die()
