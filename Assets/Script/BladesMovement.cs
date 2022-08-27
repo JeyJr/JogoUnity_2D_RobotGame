@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class BladesMovement : MonoBehaviour
 {
+    [Space(5)]
+    [Header("Movement Control")]
     public bool moveToRight;
     public float speed = 3;
 

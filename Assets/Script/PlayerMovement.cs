@@ -1,23 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 public class PlayerMovement : MonoBehaviour
 {
     Rigidbody2D rb2D;
     Animator anim;
 
-
-
     float speed = 3;
     float horizontalMove;
     bool isRunning; //control anim idle-run
 
-
+    [Space(5)]
+    [Header("Jump Control")]
     public bool isJumping;
     public float jumpStrength = 2;
     public bool doubleJump;
 
+    [Space(5)]
+    [Header("Ground Check Control")]
     public LayerMask groundLayer;
     public Transform groundCheckStart;
 
@@ -42,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
     {
         BasicMovement();
         CheckGround();
+
+        if (transform.position.y < -10) GameObject.Find("GameController").GetComponent<GameController>().TakeDMG(10);
     }
 
     void BasicMovement()

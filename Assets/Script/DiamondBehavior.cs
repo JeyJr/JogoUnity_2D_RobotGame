@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class DiamondBehavior : MonoBehaviour
 {
+
     GameController gameController;
     private void Start()
     {

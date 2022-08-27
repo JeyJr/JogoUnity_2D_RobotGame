@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 public class GameController : MonoBehaviour
 {
 
@@ -12,42 +14,64 @@ public class GameController : MonoBehaviour
     [Space(5)]
     [Header("Diamond Control")]
     public GameObject diamond;
-    int diamonMaxSpawned = 5; 
+    public int diamonMaxSpawned = 5; 
     public int diamondCount = 0;
+
+    [Space(5)]
+    [Header("Points Control")]
     public int points = 0;
+    public int maxPoints;
+    public TMP_Text txtMaxPoints;
+
+    [Space(5)]
+    [Header("Life Control")]
+    public int maxLife = 5;
+    public int life = 5;
+    public Image[] barBattery;
 
     [Space(5)]
     [Header("GUI Control")]
     public TMP_Text txtDiamondPoints;
-
-    [Space(5)]
-    [Header("Life Control")]
-    int maxLife = 5;
-    public int life = 5;
-    public Image[] barBattery;
+    public GameObject startPanel;
+    public Button play;
 
     private void Start()
     {
-        //txtDiamondPoints = GetComponent<TextMeshPro>();
-        InvokeRepeating("SpawnBlade", 0, randomSpawnTime);
+        StartGame(true, 0);
 
-        for(int i = 0; i < maxLife; i++)
+        for (int i = 0; i < maxLife; i++)
         {
             barBattery[i].enabled = true;
         }
-    }
 
+        InvokeRepeating("SpawnBlade", 0, randomSpawnTime);
+
+    }
+    void StartGame(bool active, float timeScale)
+    {
+        startPanel.SetActive(active);
+        maxPoints = PlayerPrefs.GetInt("MaxPoints");
+        txtMaxPoints.text = $"Recorde: <color=red>{maxPoints}</color>";
+
+        Time.timeScale = timeScale;
+    }
+    public void PlayGame()
+    {
+        StartGame(false, 1);
+    }
     private void Update()
     {
         if (diamondCount < diamonMaxSpawned) SpawnDiamond();
-
         txtDiamondPoints.text = $"x{points}";
-
-        //lifeControl();
-
-        
+        if (life <= 0)
+        {
+            if (points > maxPoints)
+            {
+                PlayerPrefs.SetInt("MaxPoints", maxPoints);
+            }
+            SceneManager.LoadScene(0);
+        }
     }
-
     void SpawnBlade()
     {
         float x = Random.Range(0, 2);
@@ -65,12 +89,15 @@ public class GameController : MonoBehaviour
         diamondCount++;
 
     }
-
-
     public void TakeDMG(int dmg)
     {
         barBattery[life - 1].enabled = false;
         life -= dmg;
+    }
+    public void ResetPoints()
+    {
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene(0);
     }
 }
 
