@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
     [Space(5)]
     [Header("Points Control")]
     public int points = 0;
-    public int maxPoints;
+    public int maxPoints = 0;
     public TMP_Text txtMaxPoints;
 
     [Space(5)]
@@ -35,8 +35,13 @@ public class GameController : MonoBehaviour
     public GameObject startPanel;
     public Button play;
 
+
+    bool gameStarted;
+
     private void Start()
     {
+        gameStarted = true;
+        maxPoints = PlayerPrefs.GetInt("maxPoints", maxPoints);
         StartGame(true, 0);
 
         for (int i = 0; i < maxLife; i++)
@@ -44,30 +49,33 @@ public class GameController : MonoBehaviour
             barBattery[i].enabled = true;
         }
 
+        BatteryLifeColor();
+
         InvokeRepeating("SpawnBlade", 0, randomSpawnTime);
 
     }
     void StartGame(bool active, float timeScale)
     {
         startPanel.SetActive(active);
-        maxPoints = PlayerPrefs.GetInt("MaxPoints");
         txtMaxPoints.text = $"Recorde: <color=red>{maxPoints}</color>";
-
         Time.timeScale = timeScale;
     }
     public void PlayGame()
     {
         StartGame(false, 1);
+        gameStarted = false;
     }
     private void Update()
     {
-        if (diamondCount < diamonMaxSpawned) SpawnDiamond();
-        txtDiamondPoints.text = $"x{points}";
-        if (life <= 0)
+        if(!gameStarted)
         {
-            if (points > maxPoints)
-            {
-                PlayerPrefs.SetInt("MaxPoints", maxPoints);
+            if (diamondCount < diamonMaxSpawned) SpawnDiamond();
+            txtDiamondPoints.text = $"x{points}";
+        }
+
+        if (life <= 0) {
+            if (points > maxPoints) {
+                PlayerPrefs.SetInt("maxPoints", points);
             }
             SceneManager.LoadScene(0);
         }
@@ -85,22 +93,38 @@ public class GameController : MonoBehaviour
     void SpawnDiamond()
     {
 
-        Instantiate(diamond, new Vector2(Random.Range(-7f, 7), Random.Range(-2f, 4.5f)), Quaternion.identity);
+        Instantiate(diamond, new Vector2(Random.Range(-5f, 5), Random.Range(-2f, 3f)), Quaternion.identity);
         diamondCount++;
 
     }
     public void TakeDMG(int dmg)
     {
+        
         barBattery[life - 1].enabled = false;
         life -= dmg;
+        BatteryLifeColor();
     }
     public void ResetPoints()
     {
         PlayerPrefs.DeleteAll();
         SceneManager.LoadScene(0);
     }
+
+    void BatteryLifeColor()
+    {
+
+        for(int i = 0; i < life; i++)
+        {
+            if (life >= 4) barBattery[i].GetComponent<Image>().color = Color.green;
+            else if(life >= 2) barBattery[i].GetComponent<Image>().color = Color.yellow;
+            else barBattery[i].GetComponent<Image>().color = Color.red;
+        }
+    }
 }
 
 
 // Obj coletaveis = szadiart.itch.io/rocky-world-platformer-set
 // Emotes = pipoya.itch.io/free-popup-emotes-pack
+
+
+//  ansimuz.itch.io/industrial-parallax-background
