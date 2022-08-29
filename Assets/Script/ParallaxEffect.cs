@@ -8,7 +8,6 @@ public class ParallaxEffect : MonoBehaviour
 
     Transform player;
 
-
     private void OnEnable()
     {
         player = GameObject.Find("Player").GetComponent<Transform>();
