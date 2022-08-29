@@ -32,52 +32,77 @@ public class GameController : MonoBehaviour
     [Space(5)]
     [Header("GUI Control")]
     public TMP_Text txtDiamondPoints;
-    public GameObject startPanel;
+    public GameObject mainPanel, startPanel, configPanel;
     public Button play;
+    public bool gameStarted;
 
-
-    bool gameStarted;
+    bool dead;
 
     private void Start()
     {
         gameStarted = true;
         maxPoints = PlayerPrefs.GetInt("maxPoints", maxPoints);
-        StartGame(true, 0);
+        PanelsControl(true, true, false, 0);
 
         for (int i = 0; i < maxLife; i++)
         {
             barBattery[i].enabled = true;
         }
 
+        
         BatteryLifeColor();
 
         InvokeRepeating("SpawnBlade", 0, randomSpawnTime);
 
     }
-    void StartGame(bool active, float timeScale)
+    #region Panels
+    void PanelsControl(bool mainP, bool startP, bool configP, float timeScale)
     {
-        startPanel.SetActive(active);
+        mainPanel.SetActive(mainP);
+        startPanel.SetActive(startP);
+        configPanel.SetActive(configP);
+
         txtMaxPoints.text = $"Recorde: <color=red>{maxPoints}</color>";
         Time.timeScale = timeScale;
     }
     public void PlayGame()
     {
-        StartGame(false, 1);
+        PanelsControl(false, false, false, 1);
         gameStarted = false;
+        GetComponent<AudioSource>().Stop();
+        GetComponent<AudioControl>().PlayAudio(1);
     }
+    public void OpenConfigPanel()
+    {
+        PanelsControl(true, false, true, 0);
+    }
+    public void BackToStartPanel()
+    {
+        PanelsControl(true, true, false, 0);
+        GetComponent<AudioControl>().SaveChanges();
+    }
+    #endregion
     private void Update()
     {
-        if(!gameStarted)
+        if(!gameStarted && life > 0 && ! dead)
         {
             if (diamondCount < diamonMaxSpawned) SpawnDiamond();
             txtDiamondPoints.text = $"x{points}";
         }
+        else if (!gameStarted && life <= 0 && ! dead) {
 
-        if (life <= 0) {
+            dead = true;
+            GetComponent<AudioSource>().Stop();
+            GetComponent<AudioControl>().PlayAudio(3);
+
             if (points > maxPoints) {
                 PlayerPrefs.SetInt("maxPoints", points);
             }
-            SceneManager.LoadScene(0);
+
+            float delay = GetComponent<AudioControl>().clips[3].length;
+            Debug.Log(delay);
+
+            Invoke("Die", delay);
         }
     }
     void SpawnBlade()
@@ -88,7 +113,7 @@ public class GameController : MonoBehaviour
         Vector3 pos = new Vector3( x < 1 ? -11 : 11 , y, 0f);
         Instantiate(blade, pos, Quaternion.identity);
 
-        randomSpawnTime = Random.Range(2, 7);
+        randomSpawnTime = Random.Range(1, 4);
     }
     void SpawnDiamond()
     {
@@ -109,7 +134,6 @@ public class GameController : MonoBehaviour
         PlayerPrefs.DeleteAll();
         SceneManager.LoadScene(0);
     }
-
     void BatteryLifeColor()
     {
 
@@ -119,6 +143,10 @@ public class GameController : MonoBehaviour
             else if(life >= 2) barBattery[i].GetComponent<Image>().color = Color.yellow;
             else barBattery[i].GetComponent<Image>().color = Color.red;
         }
+    }
+    void Die()
+    {
+        SceneManager.LoadScene(0);
     }
 }
 

@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
 {
     Rigidbody2D rb2D;
     Animator anim;
+    GameController gameController;
 
     float speed = 3;
     float horizontalMove;
@@ -23,27 +24,34 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        gameController = GameObject.Find("GameController").GetComponent<GameController>();
         rb2D = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        horizontalMove = Input.GetAxis("Horizontal");
+        if(gameController.life > 0)
+        {
+            horizontalMove = Input.GetAxis("Horizontal");
 
 
-        Jump();
-        anim.SetBool("isRunning", isRunning);
-        anim.SetBool("isJumping", isJumping);
+            Jump();
+            anim.SetBool("isRunning", isRunning);
+            anim.SetBool("isJumping", isJumping);
+        }
     }
 
     //Padrão: a cada 0,02 segundos
     private void FixedUpdate()
     {
-        BasicMovement();
-        CheckGround();
+        if(gameController.life > 0)
+        {
+            BasicMovement();
+            CheckGround();
 
-        if (transform.position.y < -10) GameObject.Find("GameController").GetComponent<GameController>().TakeDMG(10);
+            if (transform.position.y < -10) gameController.TakeDMG(gameController.life);
+        }
     }
 
     void BasicMovement()
@@ -80,7 +88,6 @@ public class PlayerMovement : MonoBehaviour
             rb2D.velocity = new Vector2(rb2D.velocity.x, jumpStrength);
         }
     }
-
     void CheckGround()
     {
         //docs.unity3d.com/ScriptReference/Physics2D.Raycast.html

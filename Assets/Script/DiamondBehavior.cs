@@ -2,19 +2,20 @@ using UnityEngine;
 
 public class DiamondBehavior : MonoBehaviour
 {
-
     GameController gameController;
-    Animator anim;
+    AudioControl audioControl;
 
+    Animator anim;
     float randomTime;
 
-    private void Start()
+    private void Awake()
     {
         randomTime = Random.Range(3f, 7f);
 
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
-        anim = this.gameObject.GetComponent<Animator>();
+        audioControl = gameController.GetComponent<AudioControl>();
 
+        anim = gameObject.GetComponent<Animator>();
         Invoke("AnimDie", randomTime);
     }
 
@@ -23,6 +24,7 @@ public class DiamondBehavior : MonoBehaviour
         if (collision.gameObject.CompareTag("Player")) {
             Die();
             gameController.points++;
+            audioControl.PlayAudio(1);
         }
     }
 
