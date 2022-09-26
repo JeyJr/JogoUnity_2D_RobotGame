@@ -379,8 +379,9 @@ GameObject:
   m_Component:
   - component: {fileID: 100339969}
   - component: {fileID: 100339970}
-  - component: {fileID: 100339971}
+  - component: {fileID: 100339973}
   - component: {fileID: 100339972}
+  - component: {fileID: 100339971}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -415,7 +416,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5572350bd07d9e44397db885400610a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blade: {fileID: 1243811294280911496, guid: 538721a2e5c588541ac3beacfd934df7, type: 3}
   diamond: {fileID: 8913939937163209078, guid: d4ffe31accff85f4a80a47f0f2b0ee43, type: 3}
   diamonMaxSpawned: 5
   diamondCount: 0
@@ -555,6 +555,19 @@ MonoBehaviour:
   txtVolume: {fileID: 2063528031}
   playBGGuiMusic: 0
   playBGGameMusic: 0
+--- !u!114 &100339973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100339968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6f5ff077ee407e4d85658d0b53106f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blade: {fileID: 1243811294280911496, guid: 538721a2e5c588541ac3beacfd934df7, type: 3}
 --- !u!1 &133103335
 GameObject:
   m_ObjectHideFlags: 0
