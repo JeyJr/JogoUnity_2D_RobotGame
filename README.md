@@ -4,6 +4,9 @@
 
 Não é necessário ter a mesma versão da Unity para abrir o projeto, mas é recomendado que você tenha instalado a versão mais recente disponível.
 
+**Link para jogar:**
+https://jeyjr.itch.io/robotgame
+
 ![GamePlay](https://jjimagens.netlify.app/img/RobotGame2D/robotGamePlay.png)
 
 ---
