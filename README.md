@@ -7,7 +7,7 @@ Não é necessário ter a mesma versão da Unity para abrir o projeto, mas é re
 **Link para jogar:**
 https://jeyjr.itch.io/robotgame
 
-![GamePlay](https://jjimagens.netlify.app/img/RobotGame2D/robotGamePlay.png)
+![GamePlay](https://imgs-projetos-jeyjr.netlify.app/gamesunity/robotgame/robotGamePlay.png)
 
 ---
 
@@ -29,7 +29,7 @@ https://github.com/JeyJr/2D_RobotGame/tree/main/Assets/Scenes
 Em seguida, clique duas vezes no arquivo e selecione a versão da Unity desejada para carregar o projeto. Todos os arquivos de base da Unity serão implementados automaticamente.
 
 
-![GamePlay](https://jjimagens.netlify.app/img/RobotGame2D/robotUnity.png)
+![GamePlay](https://imgs-projetos-jeyjr.netlify.app/gamesunity/robotgame/robotUnity.png)
 
 ---
 ## Uso:
