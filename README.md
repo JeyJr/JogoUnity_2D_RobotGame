@@ -8,7 +8,7 @@ Não é necessário ter a mesma versão da Unity para abrir o projeto, mas é re
 **Link para jogar:**
 https://jeyjr.itch.io/robotgame
 
-![GamePlay](https://imgs-projetos-jeyjr.netlify.app/gamesunity/robotgame/robotGamePlay.png)
+![GamePlay](https://imgs-projetos-jeyjr.netlify.app/imgs/Unity_RobotGame/principal.png)
 
 ---
 
